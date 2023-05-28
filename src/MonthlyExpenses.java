@@ -13,6 +13,7 @@ public class MonthlyExpenses extends JFrame implements ActionListener
     private JTextField monthField;
     private JTextField yearField;
     public String user_name;
+    JLabel err;
     Connection con=null;
     public MonthlyExpenses(String currentUsername,Connection c) {
         con=c;
@@ -25,39 +26,47 @@ public class MonthlyExpenses extends JFrame implements ActionListener
         monthField = new JTextField(10);
         JLabel yearLabel = new JLabel("Enter the year:");
         yearField = new JTextField(10);
-
+        err = new JLabel("Invalid");
         add(monthLabel);
         add(monthField);
         add(yearLabel);
         add(yearField);
-
+        err.setVisible(false);
         JButton viewButton = new JButton("View");
         add(viewButton);
+        add(err);
         viewButton.addActionListener(this);
     }
     public void actionPerformed(ActionEvent e)
     {
-        dispose();
-        int month = Integer.parseInt(monthField.getText());
-        int year = Integer.parseInt(yearField.getText());
-        try {
-            JScrollPane scrollPane = viewMonthlyExpenses(month,year);
-            JFrame tableFrame = new JFrame("Income Table");
-            tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            JButton menu = new JButton("Menu");
-            tableFrame.setLayout(new FlowLayout());
-            tableFrame.add(scrollPane);
-            tableFrame.add(menu);
-            tableFrame.pack();
-            tableFrame.setVisible(true);
-            menu.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    tableFrame.dispose();
-                    new openUserMenu(user_name,con);
-                }
-            });
-        } catch (Exception ex) {
-            System.out.println("Error occurred while viewing expense table."+ ex.getMessage());
+
+        if(monthField.getText().length() == 0 || yearField.getText().length() == 0)
+        {
+            err.setVisible(true);
+        }
+        else {
+            dispose();
+            int month = Integer.parseInt(monthField.getText());
+            int year = Integer.parseInt(yearField.getText());
+            try {
+                JScrollPane scrollPane = viewMonthlyExpenses(month, year);
+                JFrame tableFrame = new JFrame("Income Table");
+                tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                JButton menu = new JButton("Menu");
+                tableFrame.setLayout(new FlowLayout());
+                tableFrame.add(scrollPane);
+                tableFrame.add(menu);
+                tableFrame.pack();
+                tableFrame.setVisible(true);
+                menu.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        tableFrame.dispose();
+                        new openUserMenu(user_name, con);
+                    }
+                });
+            } catch (Exception ex) {
+                System.out.println("Error occurred while viewing expense table." + ex.getMessage());
+            }
         }
     }
     public JScrollPane viewMonthlyExpenses(int month, int year) throws Exception {
