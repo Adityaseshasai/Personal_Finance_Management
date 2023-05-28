@@ -12,6 +12,10 @@ public class LoginFrame extends JFrame implements ActionListener
     JButton createNew;
     JButton login;
     JButton exit;
+    JLabel err1;
+    JLabel err2;
+    JLabel err3;
+    JLabel err4;
     Connection con = null;
     public String currentUName;
     public LoginFrame()
@@ -23,6 +27,14 @@ public class LoginFrame extends JFrame implements ActionListener
         createNew = new JButton("New Profile");
         login = new JButton("Log In");
         exit = new JButton("Exit");
+        err1=new JLabel("Profile Created successfully!");
+        err2=new JLabel("Username already exists! Please choose a different username.");
+        err3=new JLabel("Invalid");
+        err4=new JLabel("Invalid Username/Password.");
+        err1.setVisible(false);
+        err2.setVisible(false);
+        err3.setVisible(false);
+        err4.setVisible(false);
         setLayout(new FlowLayout());
         add(new JLabel("Username: "));
         add(userName);
@@ -31,12 +43,17 @@ public class LoginFrame extends JFrame implements ActionListener
         add(createNew);
         add(login);
         add(exit);
+        add(err1);
+        add(err2);
+        add(err3);
+        add(err4);
 
         createNew.addActionListener(this);
         login.addActionListener(this);
         exit.addActionListener(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     public boolean doesTableExist(String tableName) throws SQLException
@@ -62,14 +79,21 @@ public class LoginFrame extends JFrame implements ActionListener
             connectToDatabase();
             try
             {
-                if (!searchColumn(username))
+                if(username.length()!=0 && password.length() != 0)
                 {
-                    createUserProfile(username, password);
-                    createTableForUser(username);
-                    add(new JLabel("Profile Created successfully!"));
-                } else
+                    if (!searchColumn(username))
+                    {
+                        createUserProfile(username, password);
+                        createTableForUser(username);
+                        err1.setVisible(true);
+                    } else
+                    {
+                        err2.setVisible(true);
+                    }
+                }
+                else
                 {
-                    add(new JLabel("Username already exists! Please choose a different username."));
+                    err3.setVisible(true);
                 }
             }
             catch (Exception ex)
@@ -83,11 +107,11 @@ public class LoginFrame extends JFrame implements ActionListener
             try {
                 if (validateUser(username, password)) {
                     currentUName = username;
-                    System.out.println("Logged in successfully!");
                     new openUserMenu(currentUName,con);
                     setVisible(false);
-                } else {
-                    System.out.println("Invalid username or password!");
+                } else
+                {
+                    err4.setVisible(true);
                 }
             } catch (Exception ex) {
                 System.out.println("Error during login:"+ex.getMessage());
@@ -110,7 +134,6 @@ public class LoginFrame extends JFrame implements ActionListener
                 PreparedStatement createTableStmt = con.prepareStatement(createTableQuery);
                 createTableStmt.executeUpdate();
             }
-            System.out.println("Connection established");
         } catch (Exception e) {
             System.out.println(e);
         }
