@@ -21,7 +21,8 @@ View Balance
 View Monthly Expenses
 
 ## Packages Used:
- ```javax.swing.*;
+ ```
+ javax.swing.*;
  java.awt.*;
  java.awt.event.ActionEvent;
  java.awt.event.ActionListener;
@@ -30,4 +31,5 @@ View Monthly Expenses
  java.sql.ResultSet;
  java.sql.ResultSetMetaData;
  java.util.*;
- java.util.ArrayList;```
+ java.util.ArrayList;
+ ```
