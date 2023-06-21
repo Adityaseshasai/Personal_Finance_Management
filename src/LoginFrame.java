@@ -124,9 +124,9 @@ public class LoginFrame extends JFrame implements ActionListener
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://localhost:3306/java_project";
-            String user = "root";
-            String pwd = " ";
+            String url = "jdbc:mysql://localhost:3306/YOUR_DATABASE_NAME";
+            String user = "YOUR_USERNAME";
+            String pwd = "YOUR_PASSWORD";
             con = DriverManager.getConnection(url, user, pwd);
             boolean tableExists = doesTableExist("manushulu");
             if (!tableExists) {
