@@ -2,9 +2,9 @@
 
 ### This java application is aimed to provide the user an application to enter and review his expenses.
 
-This is wriiten in Java.
+This is written in Java.
 
-It uses local server on the user's pc to store the data implemented through JDBC and can be modified too.
+It uses local server on the user's pc to store the data implemented through JDBC and can be modified.
 
 The interface in this application is created using Swing.
 
@@ -21,7 +21,7 @@ View Balance
 View Monthly Expenses
 
 ## Packages Used:
- > javax.swing.*;
+ ```javax.swing.*;
  java.awt.*;
  java.awt.event.ActionEvent;
  java.awt.event.ActionListener;
@@ -30,4 +30,4 @@ View Monthly Expenses
  java.sql.ResultSet;
  java.sql.ResultSetMetaData;
  java.util.*;
- java.util.ArrayList;
+ java.util.ArrayList;```
